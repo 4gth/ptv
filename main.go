@@ -14,6 +14,7 @@ const (
 )
 
 func main() {
+	// Example use
 	client := client.NewClient()
 	request := model.NewRequest(model.RoutesRequest{})
 	authWriter := auth.NewAuthWriter()
