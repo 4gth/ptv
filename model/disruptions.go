@@ -45,47 +45,47 @@ type (
 	DisruptionByModes             struct{}
 )
 
-func (Disruption) New() *Request {
-	return &Request{
+func (Disruption) New() *Request[DisruptionsPayload] {
+	return &Request[DisruptionsPayload]{
 		Path:    "/v3/disruptions",
 		Payload: DisruptionsPayload{},
 	}
 }
 
-func (DisruptionsByRouteID) New() *Request {
-	return &Request{
+func (DisruptionsByRouteID) New() *Request[DisruptionsPayload] {
+	return &Request[DisruptionsPayload]{
 		Path:       "/v3/disruptions/route/{route_id}",
 		Parameters: DisruptionsParametersByRouteID{},
 		Payload:    DisruptionsPayload{},
 	}
 }
 
-func (DisruptionsByRouteIDAndStopID) New() *Request {
-	return &Request{
+func (DisruptionsByRouteIDAndStopID) New() *Request[DisruptionsPayload] {
+	return &Request[DisruptionsPayload]{
 		Path:       "/v3/disruptions/route/{route_id}/stop/{stop_id}",
 		Parameters: DisruptionsParametersByRouteIDAndStopID{},
 		Payload:    DisruptionsPayload{},
 	}
 }
 
-func (DisruptionsByStopID) New() *Request {
-	return &Request{
+func (DisruptionsByStopID) New() *Request[DisruptionsPayload] {
+	return &Request[DisruptionsPayload]{
 		Path:       "/v3/disruptions/stop/{stop_id}",
 		Parameters: DisruptionsParametersByStopID{},
 		Payload:    DisruptionsPayload{},
 	}
 }
 
-func (DisruptionByDisruptionID) New() *Request {
-	return &Request{
+func (DisruptionByDisruptionID) New() *Request[DisruptionsPayload] {
+	return &Request[DisruptionsPayload]{
 		Path:       "/v3/disruptions/{disruption_id}",
 		Parameters: DisruptionsParametersByDisruptionID{},
 		Payload:    DisruptionsPayload{},
 	}
 }
 
-func (DisruptionByModes) New() *Request {
-	return &Request{
+func (DisruptionByModes) New() *Request[DisruptionModesPayload] {
+	return &Request[DisruptionModesPayload]{
 		Path:    "/v3/disruptions/modes",
 		Payload: DisruptionModesPayload{},
 	}

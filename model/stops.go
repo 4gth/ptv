@@ -46,24 +46,24 @@ type (
 	StopsByLatLng              struct{}
 )
 
-func (StopsByStopIDAndRouteType) New() *Request {
-	return &Request{
+func (StopsByStopIDAndRouteType) New() *Request[StopsPayload] {
+	return &Request[StopsPayload]{
 		Path:       "/v3/stops/{stop_id}/route_type/{route_type}",
 		Parameters: StopParametersByStopIDAndRouteType{},
 		Payload:    StopsPayload{},
 	}
 }
 
-func (StopsByRouteIDAndRouteType) New() *Request {
-	return &Request{
+func (StopsByRouteIDAndRouteType) New() *Request[StopsPayload] {
+	return &Request[StopsPayload]{
 		Path:       "/v3/stops/route/{route_id}/route_type/{route_type}",
 		Parameters: StopParametersByRouteIDAndRouteType{},
 		Payload:    StopsPayload{},
 	}
 }
 
-func (StopsByLatLng) New() *Request {
-	return &Request{
+func (StopsByLatLng) New() *Request[StopsPayload] {
+	return &Request[StopsPayload]{
 		Path:       "/v3/stops/location/{latitude},{longitude}",
 		Parameters: StopParametersByLatLng{},
 		Payload:    StopsPayload{},

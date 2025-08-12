@@ -25,8 +25,8 @@ type PatternsParameters struct {
 
 type PatternByRunRefAndRouteType struct{}
 
-func (PatternByRunRefAndRouteType) New() *Request {
-	return &Request{
+func (PatternByRunRefAndRouteType) New() *Request[PatternsPayload] {
+	return &Request[PatternsPayload]{
 		Path:       "/v3/pattern/run/{run_ref}/route_type/{route_type}",
 		Parameters: PatternsParameters{},
 		Payload:    PatternsPayload{},

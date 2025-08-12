@@ -18,8 +18,8 @@ type FairEstimateParameters struct {
 
 type FairEstimate struct{}
 
-func (FairEstimate) New() *Request {
-	return &Request{
+func (FairEstimate) New() *Request[FairEstimatePayload] {
+	return &Request[FairEstimatePayload]{
 		Path:       "/v3/fare_estimate/min_zone/{min_zone}/max_zone/{max_zone}",
 		Parameters: FairEstimateParameters{},
 		Payload:    FairEstimatePayload{},

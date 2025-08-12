@@ -4,16 +4,22 @@
 // ex r := new(model.NewRequest(model.RoutesRequest))
 package model
 
-type Request struct {
+import "encoding/json"
+
+type Request[T any] struct {
 	Path       string
 	Parameters any
-	Payload    any
+	Payload    T
 }
 
-type Requester interface {
-	New() *Request
+type Requester[T any] interface {
+	New() *Request[T]
 }
 
-func NewRequest(funcType Requester) *Request {
+func NewRequest[T any](funcType Requester[T]) *Request[T] {
 	return funcType.New()
+}
+
+func (r *Request[T]) UnMarshalPayload(data []byte) error {
+	return json.Unmarshal(data, &r.Payload)
 }

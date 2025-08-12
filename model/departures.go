@@ -46,16 +46,16 @@ type (
 	DeparturesByRouteTypeAndStopIDAndRouteID struct{}
 )
 
-func (DeparturesByRouteTypeAndStopIDRequest) New() *Request {
-	return &Request{
+func (DeparturesByRouteTypeAndStopIDRequest) New() *Request[DeparturePayload] {
+	return &Request[DeparturePayload]{
 		Path:       "/v3/departures/route_type/{route_type}/stop/{stop_id}",
 		Parameters: DeparturesParameters{},
 		Payload:    DeparturePayload{},
 	}
 }
 
-func (DeparturesByRouteTypeAndStopIDAndRouteID) New() *Request {
-	return &Request{
+func (DeparturesByRouteTypeAndStopIDAndRouteID) New() *Request[DeparturePayload] {
+	return &Request[DeparturePayload]{
 		Path:       "/v3/departures/route_type/{route_type}/stop/{stop_id}/route/{route_id}",
 		Parameters: DeparturesParameters{},
 		Payload:    DeparturePayload{},

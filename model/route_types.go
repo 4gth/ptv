@@ -7,8 +7,8 @@ type RouteTypesPayload struct {
 
 type RouteType struct{}
 
-func (RouteType) New() *Request {
-	return &Request{
+func (RouteType) New() *Request[RouteTypesPayload] {
+	return &Request[RouteTypesPayload]{
 		Path:    "/v3/route_types",
 		Payload: RouteTypesPayload{},
 	}

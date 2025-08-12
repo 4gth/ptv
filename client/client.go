@@ -3,8 +3,8 @@ package client
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 	"reflect"
@@ -58,27 +58,25 @@ func (c *Client) SetQuery(path string, query any) *Client {
 }
 
 // Get makes a GET request to the PTV API using the Client's URL and parameters.
-func (c *Client) Get(into any) error {
+func (c *Client) Get() ([]byte, error) {
 	c.signURL()
 
 	req, err := http.NewRequest("GET", c.url.String(), nil)
 	if err != nil {
-		return fmt.Errorf("error creating request: %s", err)
+		return nil, fmt.Errorf("error creating request: %s", err)
 	}
-
 	req.Header.Set("Accept", "application/json")
 	resp, err := c.client.Do(req)
 	if err != nil {
-		return fmt.Errorf("error making request: %s", err)
+		return nil, fmt.Errorf("error making request: %s", err)
 	}
 
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("error: received status code %d", resp.StatusCode)
+		return nil, fmt.Errorf("error: received status code %d", resp.StatusCode)
 	}
 	fmt.Println("Status code: ", resp.StatusCode)
-
-	return json.NewDecoder(resp.Body).Decode(into)
+	return io.ReadAll(resp.Body)
 }
 
 // setPath sets the path for the Client's URL.
@@ -90,6 +88,32 @@ func (c *Client) setPath(path string) {
 	err := c.setPathVariables()
 	if err != nil {
 		fmt.Println("Error setting path variables:", err)
+	}
+}
+
+var flattenKeys = []string{
+	"departure",
+	"departures",
+	"directions",
+	"disruption",
+	"disruptions",
+	"outlets",
+	"route",
+	"route_types",
+	"routes",
+	"runs",
+	"stop",
+	"stops",
+}
+
+func flattenMap(m map[string]any, keys []string) {
+	for _, k := range keys {
+		if inner, ok := m[k].(map[string]any); ok {
+			for ik, iv := range inner {
+				m[ik] = iv
+			}
+			delete(m, k)
+		}
 	}
 }
 

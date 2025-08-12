@@ -43,32 +43,32 @@ type (
 	RunsByRunRefAndRouteType  struct{}
 )
 
-func (RunsByRouteID) New() *Request {
-	return &Request{
+func (RunsByRouteID) New() *Request[RunsPayload] {
+	return &Request[RunsPayload]{
 		Path:       "/v3/runs/route/{route_id}",
 		Parameters: RunsParametersByRouteID{},
 		Payload:    RunsPayload{},
 	}
 }
 
-func (RunsByRouteIDAndRouteType) New() *Request {
-	return &Request{
+func (RunsByRouteIDAndRouteType) New() *Request[RunsPayload] {
+	return &Request[RunsPayload]{
 		Path:       "/v3/runs/route/{route_id}/route_type/{route_type}",
 		Parameters: RunsParametersByRouteIDAndRouteType{},
 		Payload:    RunsPayload{},
 	}
 }
 
-func (RunsByRunRef) New() *Request {
-	return &Request{
+func (RunsByRunRef) New() *Request[RunsPayload] {
+	return &Request[RunsPayload]{
 		Path:       "/v3/runs/{run_ref}",
 		Parameters: RunsParametersByRunRef{},
 		Payload:    RunsPayload{},
 	}
 }
 
-func (RunsByRunRefAndRouteType) New() *Request {
-	return &Request{
+func (RunsByRunRefAndRouteType) New() *Request[RunsPayload] {
+	return &Request[RunsPayload]{
 		Path:       "/v3/runs/{run_ref}/route_type/{route_type}",
 		Parameters: RunsParametersByRunRefAndRouteType{},
 		Payload:    RunsPayload{},

@@ -40,21 +40,31 @@ const (
     host   = "timetableapi.ptv.vic.gov.au"
     scheme = "https"
 )
-
 func main() {
-    c := client.NewClient()
-    req := model.NewRequest(model.RoutesRequest{})
-    aw := auth.NewAuthWriter()
+ // Example use
+ client := client.NewClient()
+ request := model.NewRequest(model.RoutesByRouteID{})
 
-    c.SetDefaults(host, "", scheme, aw).
-        SetQuery(req.Path, req.Parameters)
+ request.Parameters = model.RoutesParametersByRouteID{
+  RouteID: 1,
+ }
 
-    if err := c.Get(&req.Payload); err != nil {
-        panic(err)
-    }
+ authWriter := auth.NewAuthWriter()
 
-    fmt.Printf("%+v\n", req.Payload)
+ client.SetDefaults(host, "", scheme, authWriter).
+  SetQuery(request.Path, request.Parameters)
+
+ resp, err := client.Get()
+ if err != nil {
+  fmt.Println(err)
+ }
+ if err := request.UnMarshalPayload(resp); err != nil {
+  log.Fatal(err)
+ }
+
+ fmt.Printf("%+v\n", request.Payload.Route)
 }
+
 ```
 
 ## Packages
@@ -72,3 +82,4 @@ func main() {
 ## License
 
 This project is licensed under the GPL-3.0. See [`LICENSE`](LICENSE).
+

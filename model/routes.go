@@ -6,6 +6,10 @@ type RoutePayload struct {
 	Route  []Route `json:"route"`
 	Status Status  `json:"status"`
 }
+type RouteIDPayload struct {
+	Route  Route  `json:"route"`
+	Status Status `json:"status"`
+}
 
 type RoutesParameters struct {
 	RouteTypes []int32 `query:"route_types"`
@@ -23,18 +27,18 @@ type (
 	RoutesByRouteID struct{}
 )
 
-func (RoutesRequest) New() *Request {
-	return &Request{
+func (RoutesRequest) New() *Request[RoutePayload] {
+	return &Request[RoutePayload]{
 		Path:       "/v3/routes",
 		Parameters: RoutesParameters{},
 		Payload:    RoutePayload{},
 	}
 }
 
-func (RoutesByRouteID) New() *Request {
-	return &Request{
+func (RoutesByRouteID) New() *Request[RouteIDPayload] {
+	return &Request[RouteIDPayload]{
 		Path:       "/v3/routes/{route_id}",
 		Parameters: RoutesParametersByRouteID{},
-		Payload:    RoutePayload{},
+		Payload:    RouteIDPayload{},
 	}
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/4gth/ptv/auth"
 	"github.com/4gth/ptv/client"
@@ -16,13 +17,24 @@ const (
 func main() {
 	// Example use
 	client := client.NewClient()
-	request := model.NewRequest(model.RoutesRequest{})
+	request := model.NewRequest(model.RoutesByRouteID{})
+
+	request.Parameters = model.RoutesParametersByRouteID{
+		RouteID: 1,
+	}
+
 	authWriter := auth.NewAuthWriter()
 
 	client.SetDefaults(host, "", scheme, authWriter).
 		SetQuery(request.Path, request.Parameters)
 
-	client.Get(&request.Payload)
+	resp, err := client.Get()
+	if err != nil {
+		fmt.Println(err)
+	}
+	if err := request.UnMarshalPayload(resp); err != nil {
+		log.Fatal(err)
+	}
 
-	fmt.Println("Response:", request.Payload)
+	fmt.Printf("%+v\n", request.Payload.Route)
 }
