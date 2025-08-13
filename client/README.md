@@ -11,7 +11,7 @@ Minimal HTTP client that:
 - `func NewClient() *Client`
 - `func (c *Client) SetDefaults(host, path, scheme string, authWriter auth.AuthWriter) *Client`
 - `func (c *Client) SetQuery(path string, query any) *Client` – sets path+params; expands `{}` and builds `?query`
-- `func (c *Client) Get(into any) error` – executes GET and decodes JSON into `into`
+- `func (c *Client) Get() error` – executes GET
 
 ## Example: list routes
 
@@ -34,7 +34,7 @@ func main() {
     c.SetDefaults("timetableapi.ptv.vic.gov.au", "", "https", aw).
         SetQuery(req.Path, req.Parameters)
 
-    if err := c.Get(&req.Payload); err != nil {
+    if err := c.Get(); err != nil {
         panic(err)
     }
 
@@ -58,11 +58,13 @@ req.Parameters = params
 c.SetDefaults("timetableapi.ptv.vic.gov.au", "", "https", aw).
   SetQuery(req.Path, req.Parameters)
 
-if err := c.Get(&req.Payload); err != nil {
+if err := c.Get(); err != nil {
   // handle error
 }
 ```
 
 Notes:
+
 - Fields with zero values are omitted from the query string.
 - Path placeholders must have a matching struct field tagged with `path:"name"`.
+

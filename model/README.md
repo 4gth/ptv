@@ -7,6 +7,7 @@ Typed request builders, parameter structs, and response payload types for PTV AP
 - `type Request struct { Path string; Parameters any; Payload any }`
 - `type Requester interface { New() *Request }`
 - `func NewRequest(funcType Requester) *Request`
+- `func UnmashalPayload(data []byte) *Request`
 
 Usage pattern:
 
@@ -50,3 +51,4 @@ req := model.NewRequest(model.RoutesRequest{})
 - Path placeholders correspond to struct fields tagged with `path:"..."`.
 - Query parameters come from struct fields tagged with `query:"..."`.
 - See the source files for full field lists for each endpoint.
+
