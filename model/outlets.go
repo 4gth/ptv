@@ -21,16 +21,16 @@ type (
 	OutletsByLatLng struct{}
 )
 
-func (Outlet) New() *Request[OutletsPayload] {
-	return &Request[OutletsPayload]{
+func (Outlet) New() *Request[OutletsPayload, OutletsParameters] {
+	return &Request[OutletsPayload, OutletsParameters]{
 		Path:       "/v3/outlets",
 		Parameters: OutletsParameters{},
 		Payload:    OutletsPayload{},
 	}
 }
 
-func (OutletsByLatLng) New() *Request[OutletsPayload] {
-	return &Request[OutletsPayload]{
+func (OutletsByLatLng) New() *Request[OutletsPayload, OutletsParametersByLatLng] {
+	return &Request[OutletsPayload, OutletsParametersByLatLng]{
 		Path:       "/v3/outlets/location/{latitude},{longitude}",
 		Parameters: OutletsParametersByLatLng{},
 		Payload:    OutletsPayload{},

@@ -24,10 +24,10 @@ import (
     "github.com/4gth/ptv/client"
     "github.com/4gth/ptv/model"
 )
-
+var a *auth.Auth
 func main() {
     c := client.NewClient()
-    aw := auth.NewAuthWriter()
+    aw := auth.NewAuthWriter(a)
 
     req := model.NewRequest(model.RoutesRequest{})
 
@@ -46,14 +46,10 @@ func main() {
 
 ```go
 req := model.NewRequest(model.StopsByLatLng{})
-params := req.Parameters.(model.StopParametersByLatLng)
-params.Latitude = -37.8183
-params.Longitude = 144.9671
-params.RouteType = 0 // train
-params.MaxResults = 5
-
-// Re-apply params and path
-req.Parameters = params
+req.Latitude = -37.8183
+req.Longitude = 144.9671
+req.RouteType = 0 // train
+req.MaxResults = 5
 
 c.SetDefaults("timetableapi.ptv.vic.gov.au", "", "https", aw).
   SetQuery(req.Path, req.Parameters)
@@ -61,10 +57,6 @@ c.SetDefaults("timetableapi.ptv.vic.gov.au", "", "https", aw).
 if err := c.Get(); err != nil {
   // handle error
 }
-```
-
+``
 Notes:
-
-- Fields with zero values are omitted from the query string.
-- Path placeholders must have a matching struct field tagged with `path:"name"`.
-
+- Fields with zero values are omitted from the query string.- Path placeholders must have a matching struct field tagged with `path:"name"`.

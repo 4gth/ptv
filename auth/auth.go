@@ -36,11 +36,17 @@ func loadEnv() (string, string) {
 // NewAuthWriter Creates a new instance of Auth with the developer ID and API key
 // loaded from environment variables.
 // Returns a pointer to the Auth object.
-func NewAuthWriter() *Auth {
-	devID, apiKey := loadEnv()
+func NewAuthWriter(auth *Auth) *Auth {
+	if auth == nil {
+		devID, apiKey := loadEnv()
+		return &Auth{
+			devID:  devID,
+			apiKey: apiKey,
+		}
+	}
 	return &Auth{
-		devID:  devID,
-		apiKey: apiKey,
+		devID:  auth.devID,
+		apiKey: auth.apiKey,
 	}
 }
 

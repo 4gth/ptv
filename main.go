@@ -14,16 +14,16 @@ const (
 	scheme = "https"
 )
 
+var a *auth.Auth
+
 func main() {
 	// Example use
 	client := client.NewClient()
-	request := model.NewRequest(model.RoutesByRouteID{})
+	request := model.NewRequest(model.DeparturesByRouteTypeAndStopIDAndRouteID{})
 
-	request.Parameters = model.RoutesParametersByRouteID{
-		RouteID: 1,
-	}
+	request.Parameters.RouteID = 1
 
-	authWriter := auth.NewAuthWriter()
+	authWriter := auth.NewAuthWriter(a)
 
 	client.SetDefaults(host, "", scheme, authWriter).
 		SetQuery(request.Path, request.Parameters)
@@ -36,5 +36,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("%+v\n", request.Payload.Route)
+	fmt.Printf("%+v\n", request.Payload.Departures)
 }

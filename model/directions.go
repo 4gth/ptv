@@ -24,24 +24,24 @@ type (
 	DirectionsByRouteIDAndRouteType struct{}
 )
 
-func (DirectionsByRouteID) New() *Request[DirectionsPayload] {
-	return &Request[DirectionsPayload]{
+func (DirectionsByRouteID) New() *Request[DirectionsPayload, DirectionsParametersByRoute] {
+	return &Request[DirectionsPayload, DirectionsParametersByRoute]{
 		Path:       "/v3/directions/route/{route_id}",
 		Parameters: DirectionsParametersByRoute{},
 		Payload:    DirectionsPayload{},
 	}
 }
 
-func (DirectionsByDirectionID) New() *Request[DirectionsPayload] {
-	return &Request[DirectionsPayload]{
+func (DirectionsByDirectionID) New() *Request[DirectionsPayload, DirectionsParametersByDirection] {
+	return &Request[DirectionsPayload, DirectionsParametersByDirection]{
 		Path:       "/v3/directions/{direction_id}",
 		Parameters: DirectionsParametersByDirection{},
 		Payload:    DirectionsPayload{},
 	}
 }
 
-func (DirectionsByRouteIDAndRouteType) New() *Request[DirectionsPayload] {
-	return &Request[DirectionsPayload]{
+func (DirectionsByRouteIDAndRouteType) New() *Request[DirectionsPayload, DirectionsParametersByDirectionAndRouteType] {
+	return &Request[DirectionsPayload, DirectionsParametersByDirectionAndRouteType]{
 		Path:       "/v3/directions/{direction_id}/route_type/{route_type}",
 		Parameters: DirectionsParametersByDirectionAndRouteType{},
 		Payload:    DirectionsPayload{},

@@ -21,8 +21,8 @@ type SearchParameters struct {
 }
 type SearchTerm struct{}
 
-func (SearchTerm) New() *Request[SearchPayload] {
-	return &Request[SearchPayload]{
+func (SearchTerm) New() *Request[SearchPayload, SearchParameters] {
+	return &Request[SearchPayload, SearchParameters]{
 		Path:       "/v3/search/{search_term}",
 		Parameters: SearchParameters{},
 		Payload:    SearchPayload{},

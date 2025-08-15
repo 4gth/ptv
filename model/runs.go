@@ -43,32 +43,32 @@ type (
 	RunsByRunRefAndRouteType  struct{}
 )
 
-func (RunsByRouteID) New() *Request[RunsPayload] {
-	return &Request[RunsPayload]{
+func (RunsByRouteID) New() *Request[RunsPayload, RunsParametersByRouteID] {
+	return &Request[RunsPayload, RunsParametersByRouteID]{
 		Path:       "/v3/runs/route/{route_id}",
 		Parameters: RunsParametersByRouteID{},
 		Payload:    RunsPayload{},
 	}
 }
 
-func (RunsByRouteIDAndRouteType) New() *Request[RunsPayload] {
-	return &Request[RunsPayload]{
+func (RunsByRouteIDAndRouteType) New() *Request[RunsPayload, RunsParametersByRouteIDAndRouteType] {
+	return &Request[RunsPayload, RunsParametersByRouteIDAndRouteType]{
 		Path:       "/v3/runs/route/{route_id}/route_type/{route_type}",
 		Parameters: RunsParametersByRouteIDAndRouteType{},
 		Payload:    RunsPayload{},
 	}
 }
 
-func (RunsByRunRef) New() *Request[RunsPayload] {
-	return &Request[RunsPayload]{
+func (RunsByRunRef) New() *Request[RunsPayload, RunsParametersByRunRef] {
+	return &Request[RunsPayload, RunsParametersByRunRef]{
 		Path:       "/v3/runs/{run_ref}",
 		Parameters: RunsParametersByRunRef{},
 		Payload:    RunsPayload{},
 	}
 }
 
-func (RunsByRunRefAndRouteType) New() *Request[RunsPayload] {
-	return &Request[RunsPayload]{
+func (RunsByRunRefAndRouteType) New() *Request[RunsPayload, RunsParametersByRunRefAndRouteType] {
+	return &Request[RunsPayload, RunsParametersByRunRefAndRouteType]{
 		Path:       "/v3/runs/{run_ref}/route_type/{route_type}",
 		Parameters: RunsParametersByRunRefAndRouteType{},
 		Payload:    RunsPayload{},

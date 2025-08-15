@@ -6,20 +6,20 @@ package model
 
 import "encoding/json"
 
-type Request[T any] struct {
+type Request[T any, Q any] struct {
 	Path       string
-	Parameters any
+	Parameters Q
 	Payload    T
 }
 
-type Requester[T any] interface {
-	New() *Request[T]
+type Requester[T, Q any] interface {
+	New() *Request[T, Q]
 }
 
-func NewRequest[T any](funcType Requester[T]) *Request[T] {
+func NewRequest[T, Q any](funcType Requester[T, Q]) *Request[T, Q] {
 	return funcType.New()
 }
 
-func (r *Request[T]) UnMarshalPayload(data []byte) error {
+func (r *Request[T, Q]) UnMarshalPayload(data []byte) error {
 	return json.Unmarshal(data, &r.Payload)
 }

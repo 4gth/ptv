@@ -27,16 +27,16 @@ type (
 	RoutesByRouteID struct{}
 )
 
-func (RoutesRequest) New() *Request[RoutePayload] {
-	return &Request[RoutePayload]{
+func (RoutesRequest) New() *Request[RoutePayload, RoutesParameters] {
+	return &Request[RoutePayload, RoutesParameters]{
 		Path:       "/v3/routes",
 		Parameters: RoutesParameters{},
 		Payload:    RoutePayload{},
 	}
 }
 
-func (RoutesByRouteID) New() *Request[RouteIDPayload] {
-	return &Request[RouteIDPayload]{
+func (RoutesByRouteID) New() *Request[RouteIDPayload, RoutesParametersByRouteID] {
+	return &Request[RouteIDPayload, RoutesParametersByRouteID]{
 		Path:       "/v3/routes/{route_id}",
 		Parameters: RoutesParametersByRouteID{},
 		Payload:    RouteIDPayload{},

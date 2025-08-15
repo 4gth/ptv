@@ -1,6 +1,7 @@
 # `model` package
 
 Typed request builders, parameter structs, and response payload types for PTV API endpoints.
+Strongly typed Unmashal function for each endpoint to prevent typing issues from Generic/Reflect.
 
 ## Core types
 
@@ -12,9 +13,20 @@ Typed request builders, parameter structs, and response payload types for PTV AP
 Usage pattern:
 
 ```go
-req := model.NewRequest(model.RoutesRequest{})
-// Optionally set parameter values on req.Parameters (cast to the right type)
-// Pass req.Path and req.Parameters to the HTTP client, then decode into req.Payload
+req := model.NewRequest(model.RoutesByRouteID{})
+req.Parameters.RouteID = 32
+
+func Get() {
+  /// HTTP client
+}
+
+if  err := req.UnmashalPayload(); if err != nil {
+  //err handling
+}
+
+fmt.Println(r.Payload.Routes)
+
+
 ```
 
 ## Endpoints
@@ -51,4 +63,3 @@ req := model.NewRequest(model.RoutesRequest{})
 - Path placeholders correspond to struct fields tagged with `path:"..."`.
 - Query parameters come from struct fields tagged with `query:"..."`.
 - See the source files for full field lists for each endpoint.
-

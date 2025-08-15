@@ -1,10 +1,10 @@
 # PTV Go SDK
 
-A lightweight Go client for the Public Transport Victoria (PTV) Timetable API. It provides:
+A lightweight Go client for the Public Transport Victoria (PTV) Timetable API.
 
 - Simple request builder types in `model` with strongly-typed path/query parameters
 - An HTTP `client` that expands `{path}` placeholders and builds query strings from struct tags
-- An `auth` signer that appends your `devid` and HMAC-SHA1 `signature` to each request
+- An `auth` signer that sends your `devid` and HMAC-SHA1 `signature` on request
 
 ## Quick start
 
@@ -17,7 +17,10 @@ go get github.com/4gth/ptv@latest
 
 ### Configure credentials
 
-Set your credentials as environment variables. A `.env` file is supported via `github.com/joho/godotenv`.
+Credentials can be set using `Auth` struct passed to `NewAuthWriter(*Auth)`.
+
+Otherwise your credentials can be auto-loadeds as environment variables.
+A `.env` file is supported via `github.com/joho/godotenv`.
 
 ```env
 PTV_DEV_ID=1234567
@@ -40,29 +43,31 @@ const (
     host   = "timetableapi.ptv.vic.gov.au"
     scheme = "https"
 )
+var a *auth.Auth{
+  devid: "123"
+  apiKey: "<your_api_key_here"
+}
 func main() {
- // Example use
- client := client.NewClient()
- request := model.NewRequest(model.RoutesByRouteID{})
+  // Example use
+  client := client.NewClient()
+  request := model.NewRequest(model.DeparturesByRouteTypeAndStopIDAndRouteID{})
 
- request.Parameters = model.RoutesParametersByRouteID{
-  RouteID: 1,
- }
+    request.Parameters.RouteID = 1
 
- authWriter := auth.NewAuthWriter()
+    authWriter := auth.NewAuthWriter(a)
 
- client.SetDefaults(host, "", scheme, authWriter).
-  SetQuery(request.Path, request.Parameters)
+    client.SetDefaults(host, "", scheme, authWriter).
+    SetQuery(request.Path, request.Parameters)
 
- resp, err := client.Get()
- if err != nil {
-  fmt.Println(err)
- }
- if err := request.UnMarshalPayload(resp); err != nil {
-  log.Fatal(err)
- }
+    resp, err := client.Get()
+  if err != nil {
+    fmt.Println(err)
+  }
+  if err := request.UnMarshalPayload(resp); err != nil {
+    log.Fatal(err)
+  }
 
- fmt.Printf("%+v\n", request.Payload.Route)
+    fmt.Printf("%+v\n", request.Payload.Departures)
 }
 
 ```
@@ -82,4 +87,3 @@ func main() {
 ## License
 
 This project is licensed under the GPL-3.0. See [`LICENSE`](LICENSE).
-
