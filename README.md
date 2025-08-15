@@ -45,7 +45,7 @@ const (
 )
 var a *auth.Auth{
   devid: "123"
-  apiKey: "<your_api_key_here"
+  apiKey: "<your_api_key_here>"
 }
 func main() {
   // Example use
