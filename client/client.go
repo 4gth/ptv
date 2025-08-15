@@ -61,11 +61,12 @@ func (c *Client) SetQuery(path string, query any) *Client {
 // Get makes a GET request to the PTV API using the Client's URL and parameters.
 // TODO: <<Get>> cleanup and stronger string building
 func (c *Client) Get() ([]byte, error) {
-	d, s := c.signURL()
+	s := c.signURL()
 	q := c.url.String()
-	lastParams := fmt.Sprintf("%s&signature=%s", d, s)
-	finalURL := q + lastParams
+	finalURL := q + s
+
 	fmt.Println(finalURL)
+
 	req, err := http.NewRequest("GET", finalURL, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %s", err)
@@ -161,7 +162,7 @@ func (c *Client) setPathVariables() error {
 
 // signURL generates a signature based on the url using the AuthWriter.
 // returns devid and signature paramter strings
-func (c *Client) signURL() (string, string) {
-	d, s := c.AuthWriter.GenerateSignature(c.url)
-	return d, s
+func (c *Client) signURL() string {
+	s := c.AuthWriter.GenerateSignature(c.url)
+	return s
 }

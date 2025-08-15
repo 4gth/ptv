@@ -6,6 +6,7 @@ import (
 	"crypto/hmac"
 	"crypto/sha1"
 	"encoding/hex"
+	"fmt"
 	"net/url"
 	"os"
 
@@ -22,7 +23,7 @@ type Auth struct {
 // AuthWriter interface
 // Uses the HMAC-SHA1 algorithm to create a signature for the URL.
 type AuthWriter interface {
-	GenerateSignature(path url.URL) (string, string)
+	GenerateSignature(path url.URL) string
 }
 
 // Load environment variables from a .env file.
@@ -46,7 +47,7 @@ func NewAuthWriter() *Auth {
 // GenerateSignature generates a signed path using the HMAC-SHA1 algorithm.
 // Takes a url.URL as input and appends the developer ID and signature to it.
 // returns the devID and generated signature as url parameter strings
-func (a *Auth) GenerateSignature(path url.URL) (string, string) {
+func (a *Auth) GenerateSignature(path url.URL) string {
 	urlToSign := path.Path + "?" + path.RawQuery
 	var devID string
 	if path.RawQuery == "" {
@@ -61,6 +62,6 @@ func (a *Auth) GenerateSignature(path url.URL) (string, string) {
 	mac.Write([]byte(urlToSign))
 
 	signature := hex.EncodeToString(mac.Sum(nil))
-
-	return devID, signature
+	devIDSigString := fmt.Sprintf("%s&signature=%s", devID, signature)
+	return devIDSigString
 }
