@@ -6,7 +6,7 @@ type OutletsPayload struct {
 }
 
 type OutletsParameters struct {
-	MaxResults int32 `path:"max_results"`
+	MaxResults int32 `query:"max_results"`
 }
 
 type OutletsParametersByLatLng struct {

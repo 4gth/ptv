@@ -26,7 +26,7 @@ type DeparturesParameters struct {
 	IncludeGeopath   bool            `query:"include_geopath"`
 }
 
-type DepaturesParametersByRoute struct {
+type DeparturesParametersByRoute struct {
 	RouteType        int32           `path:"route_type"`
 	StopID           int32           `path:"stop_id"`
 	RouteID          int32           `path:"route_id"`
@@ -57,7 +57,7 @@ func (DeparturesByRouteTypeAndStopIDRequest) New() *Request[DeparturePayload] {
 func (DeparturesByRouteTypeAndStopIDAndRouteID) New() *Request[DeparturePayload] {
 	return &Request[DeparturePayload]{
 		Path:       "/v3/departures/route_type/{route_type}/stop/{stop_id}/route/{route_id}",
-		Parameters: DeparturesParameters{},
+		Parameters: DeparturesParametersByRoute{},
 		Payload:    DeparturePayload{},
 	}
 }

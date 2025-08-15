@@ -17,19 +17,19 @@ type DisruptionModesPayload struct {
 }
 
 type DisruptionsParametersByRouteID struct {
-	RouteID          int32  `path:"route_id"`
-	DisruptionStatus string `query:"disruption_status"`
+	RouteID          int32 `path:"route_id"`
+	DisruptionStatus int32 `query:"disruption_status"`
 }
 
 type DisruptionsParametersByRouteIDAndStopID struct {
-	RouteID          int32  `path:"route_id"`
-	StopID           int32  `path:"stop_id"`
-	DisruptionStatus string `query:"disruption_status"`
+	RouteID          int32 `path:"route_id"`
+	StopID           int32 `path:"stop_id"`
+	DisruptionStatus int32 `query:"disruption_status"`
 }
 
 type DisruptionsParametersByStopID struct {
-	StopID           int32  `path:"stop_id"`
-	DisruptionStatus string `query:"disruption_status"`
+	StopID           int32 `path:"stop_id"`
+	DisruptionStatus int32 `query:"disruption_status"`
 }
 
 type DisruptionsParametersByDisruptionID struct {
@@ -47,8 +47,9 @@ type (
 
 func (Disruption) New() *Request[DisruptionsPayload] {
 	return &Request[DisruptionsPayload]{
-		Path:    "/v3/disruptions",
-		Payload: DisruptionsPayload{},
+		Path:       "/v3/disruptions",
+		Parameters: DisruptionsParameters{},
+		Payload:    DisruptionsPayload{},
 	}
 }
 
@@ -86,7 +87,8 @@ func (DisruptionByDisruptionID) New() *Request[DisruptionsPayload] {
 
 func (DisruptionByModes) New() *Request[DisruptionModesPayload] {
 	return &Request[DisruptionModesPayload]{
-		Path:    "/v3/disruptions/modes",
-		Payload: DisruptionModesPayload{},
+		Path:       "/v3/disruptions/modes",
+		Parameters: DisruptionsParameters{},
+		Payload:    DisruptionModesPayload{},
 	}
 }

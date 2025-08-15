@@ -30,6 +30,7 @@ type Client struct {
 // It initializes the client with default settings and returns a pointer to the Client object.
 // It does not set any URL or parameters initially.
 // Use this method to create a new client instance before configuring it with SetDefaults or other methods
+// TODO: <<Client>> add ctx.Context to client
 func NewClient() *Client {
 	return &Client{
 		client: http.DefaultClient,
@@ -58,10 +59,14 @@ func (c *Client) SetQuery(path string, query any) *Client {
 }
 
 // Get makes a GET request to the PTV API using the Client's URL and parameters.
+// TODO: <<Get>> cleanup and stronger string building
 func (c *Client) Get() ([]byte, error) {
-	c.signURL()
-
-	req, err := http.NewRequest("GET", c.url.String(), nil)
+	d, s := c.signURL()
+	q := c.url.String()
+	lastParams := fmt.Sprintf("%s&signature=%s", d, s)
+	finalURL := q + lastParams
+	fmt.Println(finalURL)
+	req, err := http.NewRequest("GET", finalURL, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %s", err)
 	}
@@ -75,7 +80,7 @@ func (c *Client) Get() ([]byte, error) {
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("error: received status code %d", resp.StatusCode)
 	}
-	fmt.Println("Status code: ", resp.StatusCode)
+	// fmt.Println("Status code: ", resp.StatusCode)
 	return io.ReadAll(resp.Body)
 }
 
@@ -88,32 +93,6 @@ func (c *Client) setPath(path string) {
 	err := c.setPathVariables()
 	if err != nil {
 		fmt.Println("Error setting path variables:", err)
-	}
-}
-
-var flattenKeys = []string{
-	"departure",
-	"departures",
-	"directions",
-	"disruption",
-	"disruptions",
-	"outlets",
-	"route",
-	"route_types",
-	"routes",
-	"runs",
-	"stop",
-	"stops",
-}
-
-func flattenMap(m map[string]any, keys []string) {
-	for _, k := range keys {
-		if inner, ok := m[k].(map[string]any); ok {
-			for ik, iv := range inner {
-				m[ik] = iv
-			}
-			delete(m, k)
-		}
 	}
 }
 
@@ -173,15 +152,16 @@ func (c *Client) setPathVariables() error {
 		placeholder := fmt.Sprintf("{%s}", tag)
 		valueStr := fmt.Sprintf("%v", value.Interface())
 		path = strings.ReplaceAll(path, placeholder, valueStr)
-		fmt.Printf("Replacing %s with %s in path\n", placeholder, valueStr)
+		// fmt.Printf("Replacing %s with %s in path\n", placeholder, valueStr)
 	}
-	fmt.Printf("Final path after replacements: %s\n", path)
+	// fmt.Printf("Final path after replacements: %s\n", path)
 	c.url.Path = path
 	return nil
 }
 
-// signURL generates a signed URL using the AuthWriter.
-// It appends the developer ID and signature to the URL's query string.
-func (c *Client) signURL() {
-	c.url.RawQuery = c.AuthWriter.GenerateSignature(c.url).Query().Encode()
+// signURL generates a signature based on the url using the AuthWriter.
+// returns devid and signature paramter strings
+func (c *Client) signURL() (string, string) {
+	d, s := c.AuthWriter.GenerateSignature(c.url)
+	return d, s
 }

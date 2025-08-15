@@ -431,21 +431,21 @@ type FareEstimateResult struct {
 }
 
 type Outlets struct {
-	OutletSlidSpid         string `json:"outlet_slid_spid,omitempty"`
-	OutletName             string `json:"outlet_name,omitempty"`
-	OutletBusiness         string `json:"outlet_business,omitempty"`
-	OutletLatitude         int    `json:"outlet_latitude,omitempty"`
-	OutletLongitude        int    `json:"outlet_longitude,omitempty"`
-	OutletSuburb           string `json:"outlet_suburb,omitempty"`
-	OutletPostcode         int    `json:"outlet_postcode,omitempty"`
-	OutletBusinessHourMon  string `json:"outlet_business_hour_mon,omitempty"`
-	OutletBusinessHourTue  string `json:"outlet_business_hour_tue,omitempty"`
-	OutletBusinessHourWed  string `json:"outlet_business_hour_wed,omitempty"`
-	OutletBusinessHourThur string `json:"outlet_business_hour_thur,omitempty"`
-	OutletBusinessHourFri  string `json:"outlet_business_hour_fri,omitempty"`
-	OutletBusinessHourSat  string `json:"outlet_business_hour_sat,omitempty"`
-	OutletBusinessHourSun  string `json:"outlet_business_hour_sun,omitempty"`
-	OutletNotes            string `json:"outlet_notes,omitempty"`
+	OutletSlidSpid         string  `json:"outlet_slid_spid,omitempty"`
+	OutletName             string  `json:"outlet_name,omitempty"`
+	OutletBusiness         string  `json:"outlet_business,omitempty"`
+	OutletLatitude         float64 `json:"outlet_latitude,omitempty"`
+	OutletLongitude        float64 `json:"outlet_longitude,omitempty"`
+	OutletSuburb           string  `json:"outlet_suburb,omitempty"`
+	OutletPostcode         int     `json:"outlet_postcode,omitempty"`
+	OutletBusinessHourMon  string  `json:"outlet_business_hour_mon,omitempty"`
+	OutletBusinessHourTue  string  `json:"outlet_business_hour_tue,omitempty"`
+	OutletBusinessHourWed  string  `json:"outlet_business_hour_wed,omitempty"`
+	OutletBusinessHourThur string  `json:"outlet_business_hour_thur,omitempty"`
+	OutletBusinessHourFri  string  `json:"outlet_business_hour_fri,omitempty"`
+	OutletBusinessHourSat  string  `json:"outlet_business_hour_sat,omitempty"`
+	OutletBusinessHourSun  string  `json:"outlet_business_hour_sun,omitempty"`
+	OutletNotes            string  `json:"outlet_notes,omitempty"`
 }
 
 type SkippedStops struct {
