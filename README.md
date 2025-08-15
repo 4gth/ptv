@@ -19,7 +19,7 @@ go get github.com/4gth/ptv@latest
 
 Credentials can be set using `Auth` struct passed to `NewAuthWriter(*Auth)`.
 
-Otherwise your credentials can be auto-loadeds as environment variables.
+Otherwise your credentials can be auto-loaded as environment variables.
 A `.env` file is supported via `github.com/joho/godotenv`.
 
 ```env
