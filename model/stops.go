@@ -10,7 +10,7 @@ type StopsPayload struct {
 
 type StopParametersByStopIDAndRouteType struct {
 	StopID            int32 `path:"stop_id"`
-	RouteType         int32 `path:"route_id"`
+	RouteType         int32 `path:"route_type"`
 	StopLocation      bool  `query:"stop_location"`
 	StpAmenities      bool  `query:"stop_amenities"`
 	StopAccessibility bool  `query:"stop_accessibility"`

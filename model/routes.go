@@ -3,7 +3,7 @@ package model
 import "github.com/go-openapi/strfmt"
 
 type RoutePayload struct {
-	Route  []Route `json:"route"`
+	Route  []Route `json:"routes"`
 	Status Status  `json:"status"`
 }
 type RouteIDPayload struct {

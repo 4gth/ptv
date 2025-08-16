@@ -22,6 +22,8 @@ func main() {
 	request := model.NewRequest(model.DeparturesByRouteTypeAndStopIDAndRouteID{})
 
 	request.Parameters.RouteID = 1
+	request.Parameters.StopID = 21
+	request.Parameters.RouteType = 0
 
 	authWriter := auth.NewAuthWriter(a)
 

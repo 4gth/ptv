@@ -81,7 +81,7 @@ func (c *Client) Get() ([]byte, error) {
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("error: received status code %d", resp.StatusCode)
 	}
-	// fmt.Println("Status code: ", resp.StatusCode)
+	fmt.Println("Status code: ", resp.StatusCode)
 	return io.ReadAll(resp.Body)
 }
 

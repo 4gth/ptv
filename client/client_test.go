@@ -401,3 +401,334 @@ func TestOutletsByLatLngGetFunctions(t *testing.T) {
 	}
 	fmt.Printf("%d\n", r.Payload.Status.Health)
 }
+
+func TestPatternsGetFunctions(t *testing.T) {
+	c := NewClient()
+	r := model.NewRequest(model.PatternByRunRefAndRouteType{})
+
+	aw := auth.NewAuthWriter(a)
+
+	c.SetDefaults(host, "", scheme, aw)
+
+	r.Parameters.RunRef = "7"
+	r.Parameters.RouteType = 0
+	r.Parameters.Expand = []int32{0, 1, 2}
+	c.SetQuery(r.Path, r.Parameters)
+	resp, err := c.Get()
+	if err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+
+	if err := r.UnMarshalPayload(resp); err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+	if r.Payload.Status.Health != 1 {
+		t.Error("Path: ", r.Path)
+	}
+	fmt.Printf("%d\n", r.Payload.Status.Health)
+}
+
+func TestRoutesGetFunctions(t *testing.T) {
+	c := NewClient()
+	r := model.NewRequest(model.RoutesRequest{})
+
+	aw := auth.NewAuthWriter(a)
+
+	c.SetDefaults(host, "", scheme, aw)
+
+	c.SetQuery(r.Path, r.Parameters)
+	resp, err := c.Get()
+	if err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+
+	if err := r.UnMarshalPayload(resp); err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+	if r.Payload.Status.Health != 1 {
+		t.Error("Path: ", r.Path)
+	}
+	fmt.Printf("%d\n", r.Payload.Status.Health)
+}
+
+func TestRoutesByRouteIDGetFunctions(t *testing.T) {
+	c := NewClient()
+	r := model.NewRequest(model.RoutesByRouteID{})
+
+	aw := auth.NewAuthWriter(a)
+
+	c.SetDefaults(host, "", scheme, aw)
+
+	r.Parameters.RouteID = 3
+
+	c.SetQuery(r.Path, r.Parameters)
+	resp, err := c.Get()
+	if err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+
+	if err := r.UnMarshalPayload(resp); err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+	if r.Payload.Status.Health != 1 {
+		t.Error("Path: ", r.Path)
+	}
+	fmt.Printf("%d\n", r.Payload.Status.Health)
+}
+
+func TestRouteTypesGetFunctions(t *testing.T) {
+	c := NewClient()
+	r := model.NewRequest(model.RouteType{})
+
+	aw := auth.NewAuthWriter(a)
+
+	c.SetDefaults(host, "", scheme, aw)
+
+	c.SetQuery(r.Path, r.Parameters)
+	resp, err := c.Get()
+	if err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+
+	if err := r.UnMarshalPayload(resp); err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+	if r.Payload.Status.Health != 1 {
+		t.Error("Path: ", r.Path)
+	}
+	fmt.Printf("%d\n", r.Payload.Status.Health)
+}
+
+func TestRunsByRouteIDGetFunctions(t *testing.T) {
+	c := NewClient()
+	r := model.NewRequest(model.RunsByRouteID{})
+
+	aw := auth.NewAuthWriter(a)
+
+	c.SetDefaults(host, "", scheme, aw)
+
+	r.Parameters.RouteID = 3
+
+	c.SetQuery(r.Path, r.Parameters)
+	resp, err := c.Get()
+	if err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+
+	if err := r.UnMarshalPayload(resp); err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+	if r.Payload.Status.Health != 1 {
+		t.Error("Path: ", r.Path)
+	}
+	fmt.Printf("%d\n", r.Payload.Status.Health)
+}
+
+func TestRunsByRouteIDAndRouteTypeGetFunctions(t *testing.T) {
+	c := NewClient()
+	r := model.NewRequest(model.RunsByRouteIDAndRouteType{})
+
+	aw := auth.NewAuthWriter(a)
+
+	c.SetDefaults(host, "", scheme, aw)
+
+	r.Parameters.RouteID = 3
+	r.Parameters.RouteType = 0
+
+	c.SetQuery(r.Path, r.Parameters)
+	resp, err := c.Get()
+	if err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+
+	if err := r.UnMarshalPayload(resp); err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+	if r.Payload.Status.Health != 1 {
+		t.Error("Path: ", r.Path)
+	}
+	fmt.Printf("%d\n", r.Payload.Status.Health)
+}
+
+func TestRunsByRunRefGetFunctions(t *testing.T) {
+	c := NewClient()
+	r := model.NewRequest(model.RunsByRunRef{})
+
+	aw := auth.NewAuthWriter(a)
+
+	c.SetDefaults(host, "", scheme, aw)
+
+	r.Parameters.RunRef = "7"
+
+	c.SetQuery(r.Path, r.Parameters)
+	resp, err := c.Get()
+	if err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+
+	if err := r.UnMarshalPayload(resp); err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+	if r.Payload.Status.Health != 1 {
+		t.Error("Path: ", r.Path)
+	}
+	fmt.Printf("%d\n", r.Payload.Status.Health)
+}
+
+func TestRunsByRunRefAndRouteTypeGetFunctions(t *testing.T) {
+	c := NewClient()
+	r := model.NewRequest(model.RunsByRunRefAndRouteType{})
+
+	aw := auth.NewAuthWriter(a)
+
+	c.SetDefaults(host, "", scheme, aw)
+
+	r.Parameters.RunRef = "7"
+	r.Parameters.RouteType = 0
+
+	c.SetQuery(r.Path, r.Parameters)
+	resp, err := c.Get()
+	if err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+
+	if err := r.UnMarshalPayload(resp); err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+	if r.Payload.Status.Health != 1 {
+		t.Error("Path: ", r.Path)
+	}
+	fmt.Printf("%d\n", r.Payload.Status.Health)
+}
+
+func TestSearchGetFunctions(t *testing.T) {
+	c := NewClient()
+	r := model.NewRequest(model.SearchTerm{})
+
+	aw := auth.NewAuthWriter(a)
+
+	c.SetDefaults(host, "", scheme, aw)
+
+	r.Parameters.SearchTerm = "Southbank"
+	r.Parameters.RouteTypes = []int32{0, 1, 2}
+	r.Parameters.MaxDistance = 300
+
+	c.SetQuery(r.Path, r.Parameters)
+	resp, err := c.Get()
+	if err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+
+	if err := r.UnMarshalPayload(resp); err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+	if r.Payload.Status.Health != 1 {
+		t.Error("Path: ", r.Path)
+	}
+	fmt.Printf("%d\n", r.Payload.Status.Health)
+	for _, r := range r.Payload.Stops {
+		fmt.Println(r)
+	}
+}
+
+func TestStopsByStopIDAndRouteTypeGetFunctions(t *testing.T) {
+	c := NewClient()
+	r := model.NewRequest(model.StopsByStopIDAndRouteType{})
+
+	aw := auth.NewAuthWriter(a)
+
+	c.SetDefaults(host, "", scheme, aw)
+
+	r.Parameters.StopID = 1002
+	r.Parameters.RouteType = 0
+
+	c.SetQuery(r.Path, r.Parameters)
+	resp, err := c.Get()
+	if err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+
+	if err := r.UnMarshalPayload(resp); err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+	if r.Payload.Status.Health != 1 {
+		t.Error("Path: ", r.Path)
+	}
+	fmt.Printf("%d\n", r.Payload.Status.Health)
+}
+
+func TestStopsByRouteIDAndRouteTypeGetFunctions(t *testing.T) {
+	c := NewClient()
+	r := model.NewRequest(model.StopsByRouteIDAndRouteType{})
+
+	aw := auth.NewAuthWriter(a)
+
+	c.SetDefaults(host, "", scheme, aw)
+
+	r.Parameters.RouteID = 1
+	r.Parameters.RouteType = 0
+
+	c.SetQuery(r.Path, r.Parameters)
+	resp, err := c.Get()
+	if err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+
+	if err := r.UnMarshalPayload(resp); err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+	if r.Payload.Status.Health != 1 {
+		t.Error("Path: ", r.Path)
+	}
+	fmt.Printf("%d\n", r.Payload.Status.Health)
+}
+
+func TestStopsByLatLngGetFunctions(t *testing.T) {
+	c := NewClient()
+	r := model.NewRequest(model.StopsByLatLng{})
+
+	aw := auth.NewAuthWriter(a)
+
+	c.SetDefaults(host, "", scheme, aw)
+
+	r.Parameters.Latitude = -37.8501
+	r.Parameters.Longitude = 145.0002
+
+	c.SetQuery(r.Path, r.Parameters)
+	resp, err := c.Get()
+	if err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+
+	if err := r.UnMarshalPayload(resp); err != nil {
+		t.Error(err)
+		fmt.Println("Path: ", r.Path)
+	}
+	if r.Payload.Status.Health != 1 {
+		t.Error("Path: ", r.Path)
+	}
+	fmt.Printf("%d\n", r.Payload.Status.Health)
+}
