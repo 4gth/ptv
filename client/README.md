@@ -46,10 +46,10 @@ func main() {
 
 ```go
 req := model.NewRequest(model.StopsByLatLng{})
-req.Latitude = -37.8183
-req.Longitude = 144.9671
-req.RouteType = 0 // train
-req.MaxResults = 5
+req.Parameters.Latitude = -37.8183
+req.Parameters.Longitude = 144.9671
+req.Parameters.RouteType = 0 // train
+req.Parameters.MaxResults = 5
 
 c.SetDefaults("timetableapi.ptv.vic.gov.au", "", "https", aw).
   SetQuery(req.Path, req.Parameters)

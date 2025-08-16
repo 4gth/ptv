@@ -19,7 +19,7 @@ go get github.com/4gth/ptv@latest
 
 Credentials can be set using `Auth` struct passed to `NewAuthWriter(*Auth)`.
 
-Otherwise your credentials can be auto-loadeds as environment variables.
+Otherwise your credentials can be auto-loaded as environment variables.
 A `.env` file is supported via `github.com/joho/godotenv`.
 
 ```env
@@ -45,31 +45,32 @@ const (
 )
 var a *auth.Auth{
   devid: "123"
-  apiKey: "<your_api_key_here"
+  apiKey: "<your_api_key_here>"
 }
 func main() {
-  // Example use
-  client := client.NewClient()
-  request := model.NewRequest(model.DeparturesByRouteTypeAndStopIDAndRouteID{})
+	// Example use
+	client := client.NewClient()
+	request := model.NewRequest(model.DeparturesByRouteTypeAndStopIDAndRouteID{})
 
-    request.Parameters.RouteID = 1
+	request.Parameters.RouteID = 1
+	request.Parameters.RouteType = 0 // train
+	request.Parameters.StopID = 23
 
-    authWriter := auth.NewAuthWriter(a)
+	authWriter := auth.NewAuthWriter(a)
 
-    client.SetDefaults(host, "", scheme, authWriter).
-    SetQuery(request.Path, request.Parameters)
+	client.SetDefaults(host, "", scheme, authWriter).
+		SetQuery(request.Path, request.Parameters)
 
-    resp, err := client.Get()
-  if err != nil {
-    fmt.Println(err)
-  }
-  if err := request.UnMarshalPayload(resp); err != nil {
-    log.Fatal(err)
-  }
+	resp, err := client.Get()
+	if err != nil {
+		fmt.Println(err)
+	}
+	if err := request.UnMarshalPayload(resp); err != nil {
+		log.Fatal(err)
+	}
 
-    fmt.Printf("%+v\n", request.Payload.Departures)
+	fmt.Printf("%+v\n", request.Payload.Departures)
 }
-
 ```
 
 ## Packages
