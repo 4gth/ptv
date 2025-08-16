@@ -53,6 +53,8 @@ func main() {
 	request := model.NewRequest(model.DeparturesByRouteTypeAndStopIDAndRouteID{})
 
 	request.Parameters.RouteID = 1
+	request.Parameters.RouteType = 0 // train
+	request.Parameters.StopID = 23
 
 	authWriter := auth.NewAuthWriter(a)
 
