@@ -48,28 +48,27 @@ var a *auth.Auth{
   apiKey: "<your_api_key_here>"
 }
 func main() {
-  // Example use
-  client := client.NewClient()
-  request := model.NewRequest(model.DeparturesByRouteTypeAndStopIDAndRouteID{})
+	// Example use
+	client := client.NewClient()
+	request := model.NewRequest(model.DeparturesByRouteTypeAndStopIDAndRouteID{})
 
-    request.Parameters.RouteID = 1
+	request.Parameters.RouteID = 1
 
-    authWriter := auth.NewAuthWriter(a)
+	authWriter := auth.NewAuthWriter(a)
 
-    client.SetDefaults(host, "", scheme, authWriter).
-    SetQuery(request.Path, request.Parameters)
+	client.SetDefaults(host, "", scheme, authWriter).
+		SetQuery(request.Path, request.Parameters)
 
-    resp, err := client.Get()
-  if err != nil {
-    fmt.Println(err)
-  }
-  if err := request.UnMarshalPayload(resp); err != nil {
-    log.Fatal(err)
-  }
+	resp, err := client.Get()
+	if err != nil {
+		fmt.Println(err)
+	}
+	if err := request.UnMarshalPayload(resp); err != nil {
+		log.Fatal(err)
+	}
 
-    fmt.Printf("%+v\n", request.Payload.Departures)
+	fmt.Printf("%+v\n", request.Payload.Departures)
 }
-
 ```
 
 ## Packages
