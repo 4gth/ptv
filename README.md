@@ -5,11 +5,12 @@ A lightweight Go client for the Public Transport Victoria (PTV) Timetable API.
 - Simple request builder types in `model` with strongly-typed path/query parameters
 - An HTTP `client` that expands `{path}` placeholders and builds query strings from struct tags
 - An `auth` signer that sends your `devid` and HMAC-SHA1 `signature` on request
+- A high-level `ptv` package that ties everything together behind a single Service
 
 ## Quick start
 
-- **Requirements**: Go installed, PTV API credentials (Developer ID and API key)
-- **Install**:
+- Requirements: Go installed, PTV API credentials (Developer ID and API key)
+- Install:
 
 ```bash
 go get github.com/4gth/ptv@latest
@@ -17,17 +18,57 @@ go get github.com/4gth/ptv@latest
 
 ### Configure credentials
 
-Credentials can be set using `Auth` struct passed to `NewAuthWriter(*Auth)`.
-
-Otherwise your credentials can be auto-loaded as environment variables.
-A `.env` file is supported via `github.com/joho/godotenv`.
+- Option 1 (recommended): Environment variables (supports `.env` via github.com/joho/godotenv)
 
 ```env
 PTV_DEV_ID=1234567
 PTV_API_KEY=your_api_key_here
 ```
 
-### Example
+- Option 2: Pass credentials directly when constructing the high-level Service
+
+```go
+svc := ptv.New("1234567", "your_api_key_here")
+```
+
+## High-level usage (ptv.Service)
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+
+    "github.com/4gth/ptv/ptv"
+    "github.com/4gth/ptv/model"
+)
+
+func main() {
+    ctx := context.Background()
+
+    // Load from env (or .env)
+    svc := ptv.NewFromEnv()
+
+    // Example: list routes filtered by name
+    routes, err := svc.Routes(ctx, func(p *model.RoutesParameters) {
+        p.RouteName = "Sandringham"
+    })
+    if err != nil { panic(err) }
+    fmt.Println(len(routes.Route))
+
+    // Example: departures for a stop
+    deps, err := svc.DeparturesByRouteTypeAndStopID(ctx, func(p *model.DeparturesParameters) {
+        p.RouteType = 0 // train
+        p.StopID = 1071 // Flinders Street
+        p.MaxResults = 10
+    })
+    if err != nil { panic(err) }
+    fmt.Println(len(deps.Departures))
+}
+```
+
+## Low-level usage (client + model)
 
 ```go
 package main
@@ -39,45 +80,33 @@ import (
     "github.com/4gth/ptv/model"
 )
 
-const (
-    host   = "timetableapi.ptv.vic.gov.au"
-    scheme = "https"
-)
-var a *auth.Auth{
-  devid: "123"
-  apiKey: "<your_api_key_here>"
-}
 func main() {
-	// Example use
-	client := client.NewClient()
-	request := model.NewRequest(model.DeparturesByRouteTypeAndStopIDAndRouteID{})
+    a := &auth.Auth{DevID: "123", APIKey: "<your_api_key_here>"}
+    aw := auth.NewAuthWriter(a)
 
-	request.Parameters.RouteID = 1
-	request.Parameters.RouteType = 0 // train
-	request.Parameters.StopID = 23
+    c := client.NewClient()
+    req := model.NewRequest[model.DeparturePayload, model.DeparturesParameters](model.DeparturesByRouteTypeAndStopIDRequest{})
 
-	authWriter := auth.NewAuthWriter(a)
+    req.Parameters.RouteType = 0
+    req.Parameters.StopID = 23
 
-	client.SetDefaults(host, "", scheme, authWriter).
-		SetQuery(request.Path, request.Parameters)
+    c.SetDefaults("timetableapi.ptv.vic.gov.au", "", "https", aw).
+        SetQuery(req.Path, req.Parameters)
 
-	resp, err := client.Get()
-	if err != nil {
-		fmt.Println(err)
-	}
-	if err := request.UnMarshalPayload(resp); err != nil {
-		log.Fatal(err)
-	}
+    resp, err := c.Get()
+    if err != nil { panic(err) }
+    if err := req.UnMarshalPayload(resp); err != nil { panic(err) }
 
-	fmt.Printf("%+v\n", request.Payload.Departures)
+    fmt.Printf("%+v\n", req.Payload.Departures)
 }
 ```
 
 ## Packages
 
-- [`auth`](auth/README.md): Sign requests using your PTV `devid` and `signature`
-- [`client`](client/README.md): Minimal HTTP client with path templating and query builder
-- [`model`](model/README.md): Request builders and payload/parameter types for PTV endpoints
+- `auth`: Sign requests using your PTV `devid` and `signature`
+- `client`: Minimal HTTP client with path templating and query builder
+- `model`: Request builders and payload/parameter types for PTV endpoints
+- `ptv`: Unified high-level Service over auth, client, and model
 
 ## Environment
 
@@ -87,4 +116,4 @@ func main() {
 
 ## License
 
-This project is licensed under the GPL-3.0. See [`LICENSE`](LICENSE).
+This project is licensed under the GPL-3.0. See `LICENSE`.

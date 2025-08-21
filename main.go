@@ -1,12 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
-	"log"
 
 	"github.com/4gth/ptv/auth"
-	"github.com/4gth/ptv/client"
 	"github.com/4gth/ptv/model"
+	"github.com/4gth/ptv/ptv"
 )
 
 const (
@@ -17,26 +17,19 @@ const (
 var a *auth.Auth
 
 func main() {
-	// Example use
-	client := client.NewClient()
-	request := model.NewRequest(model.DeparturesByRouteTypeAndStopIDAndRouteID{})
+	ctx := context.Background()
 
-	request.Parameters.RouteID = 1
-	request.Parameters.StopID = 21
-	request.Parameters.RouteType = 0
+	svc := ptv.NewFromEnv()
 
-	authWriter := auth.NewAuthWriter(a)
-
-	client.SetDefaults(host, "", scheme, authWriter).
-		SetQuery(request.Path, request.Parameters)
-
-	resp, err := client.Get()
+	routes, err := svc.Routes(ctx, func(p *model.RoutesParameters) {
+		p.RouteName = "Sandringham"
+	})
 	if err != nil {
-		fmt.Println(err)
-	}
-	if err := request.UnMarshalPayload(resp); err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
-	fmt.Printf("%+v\n", request.Payload.Departures)
+	fmt.Println(len(routes.Route))
+	for _, r := range routes.Route {
+		fmt.Println(r)
+	}
 }

@@ -16,8 +16,8 @@ import (
 /*----Auth----*/
 
 type Auth struct {
-	devID  string
-	apiKey string
+	DevID  string
+	APIKey string
 }
 
 // AuthWriter interface
@@ -40,13 +40,13 @@ func NewAuthWriter(auth *Auth) *Auth {
 	if auth == nil {
 		devID, apiKey := loadEnv()
 		return &Auth{
-			devID:  devID,
-			apiKey: apiKey,
+			DevID:  devID,
+			APIKey: apiKey,
 		}
 	}
 	return &Auth{
-		devID:  auth.devID,
-		apiKey: auth.apiKey,
+		DevID:  auth.DevID,
+		APIKey: auth.APIKey,
 	}
 }
 
@@ -57,14 +57,14 @@ func (a *Auth) GenerateSignature(path url.URL) string {
 	urlToSign := path.Path + "?" + path.RawQuery
 	var devID string
 	if path.RawQuery == "" {
-		devID = "?devid=" + a.devID
-		urlToSign = urlToSign + "devid=" + a.devID
+		devID = "?devid=" + a.DevID
+		urlToSign = urlToSign + "devid=" + a.DevID
 
 	} else {
-		devID = "&devid=" + a.devID
+		devID = "&devid=" + a.DevID
 		urlToSign = urlToSign + devID
 	}
-	mac := hmac.New(sha1.New, []byte(a.apiKey))
+	mac := hmac.New(sha1.New, []byte(a.APIKey))
 	mac.Write([]byte(urlToSign))
 
 	signature := hex.EncodeToString(mac.Sum(nil))
