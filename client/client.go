@@ -121,7 +121,14 @@ func (c *Client) buildQueryString() {
 		if !value.IsValid() || value.IsZero() {
 			continue
 		}
-		query.Add(tag, fmt.Sprintf("%v", value.Interface()))
+		switch value.Kind() {
+		case reflect.Slice, reflect.Array:
+			for j := 0; j < value.Len(); j++ {
+				query.Add(tag, fmt.Sprintf("%v", value.Index(j).Interface()))
+			}
+		default:
+			query.Add(tag, fmt.Sprintf("%v", value.Interface()))
+		}
 	}
 	c.url.RawQuery = query.Encode()
 }
